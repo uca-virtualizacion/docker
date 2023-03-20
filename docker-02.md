@@ -1,7 +1,7 @@
 ---
 marp: true
-title: Apuntes IISS 2021
-description: Apuntes de Implementación e Implantación de Sistemas Software, curso 2021/22
+title: Apuntes IISS
+description: Apuntes de Implementación e Implantación de Sistemas Software
 ---
 
 <!-- size: 16:9 -->
@@ -350,7 +350,7 @@ docker run -d --name wordpress -p 8080:8080 -p 8443:8443 \
 
 ## Tarea: Práctica 2
 
-Subir un documento PDF con los comandos realizados para resolver los siguientes ejercicios propuestos. Incluir también la respuesta a las preguntas realizadas y capturas donde se requiera mostrar en el navegador el correcto funcionamiento de los contenedores.
+Escribir un documento markdown con los comandos realizados para resolver los siguientes ejercicios propuestos. Incluir también la respuesta a las preguntas realizadas y capturas donde se requiera mostrar en el navegador el correcto funcionamiento de los contenedores.
 
 ---
 
@@ -378,7 +378,7 @@ Subir un documento PDF con los comandos realizados para resolver los siguientes 
 
 ## Task 2
 
-Upload a PDF document with the commands to be run to solve the following tasks. Answer also the proposed questions and include screenshots where it is required to check the correct functioning of containers.
+Write a markdown document with the commands to be run to solve the following tasks. Answer also the proposed questions and include screenshots where it is required to check the correct functioning of containers.
 
 ---
 

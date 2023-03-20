@@ -1,7 +1,7 @@
 ---
 marp: true
-title: Apuntes IISS 2021
-description: Apuntes de Implementación e Implantación de Sistemas Software, curso 2021/22
+title: Apuntes IISS
+description: Apuntes de Implementación e Implantación de Sistemas Software
 ---
 
 <!-- size: 16:9 -->
