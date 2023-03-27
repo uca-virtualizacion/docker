@@ -512,7 +512,7 @@ Ver la configuración de la red creada
 
 _(Tarea disponible en el Campus Virtual)_
 
-Subir el fichero `docker-compose.yml` creado y todo lo necesario, y además, un documento PDF con la explicación de la configuración realizada en el fichero. Incluir también las capturas donde se requiera mostrar en el navegador el correcto funcionamiento de los contenedores.
+Subir el fichero `docker-compose.yml` creado y todo lo necesario, y además, un documento Markdown con la explicación de la configuración realizada en el fichero. Incluir también las capturas donde se requiera mostrar en el navegador el correcto funcionamiento de los contenedores.
 
 ---
 
@@ -538,7 +538,7 @@ Subir el fichero `docker-compose.yml` creado y todo lo necesario, y además, un 
 
 _(Task available in the Virtual Campus)_
 
-Upload the file `docker-compose.yml` created and everything needed, and also a PDF document with the explanation of the configuration made in the file. Include also the screenshots where it is required to show in the browser the correct functioning of the containers.
+Upload the file `docker-compose.yml` created and everything needed, and also a Markdown document with the explanation of the configuration made in the file. Include also the screenshots where it is required to show in the browser the correct functioning of the containers.
 
 ---
 
