@@ -8,7 +8,6 @@ description: Apuntes de Implementación e Implantación de Sistemas Software
 <!-- theme: default -->
 
 <!-- paginate: false -->
-
 <!-- headingDivider: 1 -->
 
 <style>
