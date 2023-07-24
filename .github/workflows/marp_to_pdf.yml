@@ -1,0 +1,59 @@
+name: 'Marp to generate PDF and upload to LFS'
+run-name: ${{ github.actor }} is generating a PDF with marp and uploading it to LFS
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+jobs:
+  generate_docker_pdf:
+    name: Generate PDF from docker markdown
+    if: github.repository == 'uca-virtualizacion/docker'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: npm
+      - name: Set up Git LFS
+        run:
+          git lfs install
+      - name: Install npm
+        run: npm ci
+      - name: Install npx
+        run: npm install -g npx
+      - name: Install marp-cli
+        run: npm install @marp-team/marp-cli
+      - name: Install marpit
+        run: npm install @marp-team/marpit
+      - name: Install marp-core
+        run: npm install @marp-team/marp-core
+      - name: Gather files changed
+        uses: trilom/file-changes-action@a6ca26c14274c33b15e6499323aac178af06ad4b
+        with:
+          fileOutput: 'json'
+      - name: Show files changed
+        run: cat $HOME/files.json
+      - name: Generate PDFs
+        run:
+          mkdir pdf/
+          for filename in docker-??.md; do
+              [ -e "$filename" ] || continue
+              ./marp/pdf-build.sh ${filename%%.md}
+          done
+      - name: Move PDF to LFS folder
+        run:
+          mkdir -p .git/lfs/objects/
+          for pdffile in pdf/docker-??.pdf; do
+              [ -e "$pdffile" ] || continue
+              mv $pdffile .git/lfs/objects/
+          done
+      - name: Track PDF with Git LFS
+        run:
+          for pdffile in $PWD/pdf/docker-??.pdf; do
+              [ -e "$pdffile" ] || continue
+              git add .git/lfs/objects/$pdffile
+          done
