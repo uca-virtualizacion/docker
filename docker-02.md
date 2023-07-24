@@ -1,7 +1,7 @@
 ---
 marp: true
-title: Apuntes IISS
-description: Apuntes de Implementación e Implantación de Sistemas Software
+title: Prácticas de Docker 02
+description: Asignaturas del grado en Ingeniería Informática 
 ---
 
 <!-- size: 16:9 -->
