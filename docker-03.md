@@ -528,5 +528,3 @@ Subir el fichero `docker-compose.yml` creado y todo lo necesario, y además, un 
 2) Hacer que el servicio wordpress utilice el puerto 82.
 3) Hacer que ambos contenedores usen la red `redDocker`.
 4) Comprobar que puede acceder a `localhost:82` y puede visualizar la página de configuración de wordpress.
-
----
