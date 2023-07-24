@@ -7,14 +7,22 @@ description: Asignaturas del grado en Ingeniería Informática
 <!-- size: 16:9 -->
 <!-- theme: default -->
 
-<!-- paginate: false -->
+<!-- paginate: skip -->
 
 <!-- headingDivider: 1 -->
 
 <style>
 h1 {
   text-align: center;
+  color: #005877;
 }
+h2 {
+  color: #E87B00;
+}
+h3 {
+  color: #005877;
+}
+
 img[alt~="center"] {
   display: block;
   margin: 0 auto;
@@ -38,21 +46,19 @@ img[alt~="center"] {
 3. Empaquetador de aplicaciones
 4. Un sistema de virtualización
 
-<!--
-
-Un entorno chroot es un entorno aislado del sistema, donde se pueden instalar aplicaciones y librerías sin que afecte al sistema principal.
-
--->
-
 ---
 
 ## ¿Qué es Docker?
 
-### Contrato entre _sysadmin_  y desarrollador
+### 1. Un entorno _chroot_
+
+Entorno aislado del sistema, donde se pueden instalar aplicaciones y librerías sin que afecte al sistema principal.
+
+### 2. Contrato entre _sysadmin_  y desarrollador
 
 El  administrador solo debe  __desplegar__  los contenedores, mientras que el  desarrollador puede trabajar e instalar con ellos sin poner en riesgo el sistema.
 
-#### Empaquetador de aplicaciones
+### 3. Empaquetador de aplicaciones
 
 Se puede crear un  _container_ para la aplicación, de modo que se ejecuten igual en distintas máquinas.
 
@@ -60,11 +66,11 @@ Se puede crear un  _container_ para la aplicación, de modo que se ejecuten igua
 
 ## ¿Qué es Docker?
 
-#### Un sistema de virtualización
+### 4. Un sistema de virtualización
 
 __Virtual machine__: _Include the application, the necessary binaries and libraries, and an entire guest operating system –– all of which can amount to tens of GBs._
 
-![](img/docker-011.png)
+![Virtual machine](img/docker-011.png)
 
 ---
 
@@ -72,7 +78,7 @@ __Virtual machine__: _Include the application, the necessary binaries and librar
 
 __Container__: _Include the application and all of its dependencies –– but share the kernel with other containers, running as isolated processes in user space on the host operating system. Docker containers are not tied to any specific infrastructure: they run on any computer, on any infrastructure, and in any cloud._
 
-![](img/docker-012.png)
+![Container](img/docker-012.png)
 
 ---
 
@@ -105,67 +111,53 @@ __Container__: _Include the application and all of its dependencies –– but s
 
 ---
 
-## Docker Hub
-
-https://hub.docker.com/
-
-Es un repositorio donde los usuarios de Docker pueden compartir los contenedores que han creado. Además se pueden encontrar repositorios oficiales.
-
-Existe una opción para registro privado, pero es de pago.
-
-
 ## Instalación de Docker
 
 - Trabajaremos con Ubuntu, aunque es posible en cualquier sistema operativo
 - Docker solo trabaja con sistemas de 64 bits
 
----
-
 ### Instalación (Ubuntu)
 
-#### Opción 1:
+Instrucciones de instalación:
 
 https://docs.docker.com/engine/install/ubuntu/
 
-#### Opción 2:
+Comprobar que se está ejecutando:
 
-```
-sudo apt-get update
-wget -qO- https://get.docker.com/ | sh
-```
-
-Comprobamos que se está ejecutando:
-
-```
+```bash
 sudo docker --version
 sudo service docker status
 ```
+
 ---
 
 ### Instalación (Windows)
 
 - Docker está ya integrado en Windows 10, haciendo uso de Hyper-V
 - Cuando se usa Docker no se puede utilizar __Virtual Box__, lo que puede significar un problema
-- Tenemos la opción de deshabilitar Hyper-V. Para ello debemos ejecutar como administrador :
+- Tenemos la opción de deshabilitar Hyper-V. Para ello debemos ejecutar como administrador:
 
 Apagar
 
-```
+```bash
 bcdedit /set  hypervisorlaunchtype off
 ```
 
 Encender
 
-```
+```bash
 bcdedit /set hypervisorlaunchtype auto
 ```
 
 ---
 
 ## Usos sin necesidad de _sudo_ (opcional)
+
+Para ejecutar el daemon de Docker y los contenedores sin ser superusuarios:
+
 https://docs.docker.com/engine/security/rootless/
 
-Creamos un grupo docker 
+Creamos un grupo docker
 
 `sudo groupadd docker`
 
@@ -175,13 +167,15 @@ Añadimos el usuario al grupo
 
 Cerramos sesión y volvemos a entrar
 
----
-
 Comprobamos que se está ejecutando
 
 `sudo service docker status`
 
-Vemos que versión estamos trabajando
+---
+
+## Comprobar la instalación
+
+Vemos con qué versión estamos trabajando
 
 `docker --version`
 
@@ -201,10 +195,13 @@ Descarga y ejecución de un contenedor básico
 
 ## Docker Hub
 
-- Es un repositorio para descargar imágenes.
-- Es un repositorio para subir nuestras imágenes (públicas o privadas)
--  Tiene servicios automatizados [webhooks](https://docs.docker.com/docker-hub/webhooks/)
-- Se integra con Github y BitBucket
+https://hub.docker.com/
+
+Es un repositorio donde los usuarios de Docker pueden compartir las imágenes de los contenedores que han creado.
+
+Existe una opción de pago para registro privado.
+
+Tiene servicios automatizados [webhooks](https://docs.docker.com/docker-hub/webhooks/) y se puede integrar con Github y BitBucket.
 
 ---
 
@@ -235,13 +232,13 @@ Descargar la versión oficial
 
 `docker pull ubuntu`
 
-> Podemos usar opciones `ubuntu:14.04` `ubuntu:latest`
+> Podemos usar opciones como `ubuntu:14.04`, `ubuntu:latest`, etc.
 
-Ejecutamos el contenedor 
+Ejecutamos el contenedor
 
 `docker run ubuntu /bin/echo "Pues parece que funciona"`
 
- > Al ejecutar `run`, si la imagen no existiera en el repositorio local, se descarga
+ > Al ejecutar `run`, si la imagen no existiera en el repositorio local, se descarga antes
 
 ---
 
@@ -288,7 +285,10 @@ Para salir del terminal
 
 Poner nombre a un contenedor
 
-`docker run --name myUbuntu ubuntu /bin/bash -c "while true; do echo hola mundo; sleep 1; done"`
+```bash
+docker run --name myUbuntu ubuntu /bin/bash \
+    -c "while true; do echo hola mundo; sleep 1; done"
+```
 
 Vemos los contenedores que se están ejecutando
 
@@ -504,7 +504,7 @@ Ejecutamos nuestra imagen
 
 `docker run -i -t -p 3333:80 --name myserver usuario/myserver:latest`
 
-Probar el contenedor y abrir http://localhost:3333//
+Probar el contenedor y abrir http://localhost:3333/
 
 Colocamos nuestra imagen en Docker Hub
 
@@ -539,16 +539,15 @@ p {
 }
 </style>
 
+## Tutorial de Docker
+
 [https://docs.docker.com/get-started/](https://docs.docker.com/get-started/)
 
 # Ejercicio: Apache server
 
-Crear un contenedor con Apache server 2. El servidor por defecto muestra en la página principal “It works!”. Modificar este mensaje para que muestre un saludo personal: “Hello + (tu nombre y apellidos)!”. Posteriormente, configurarlo para que por defecto utilice el puerto 8082.
-
 Tareas:
 
-1. Crear contenedor con Apache Server 2 (buscar en Docker Hub)
-2. Personalizar el contenedor.
-3. Subir la imagen del contenedor creado a Docker Hub. La imagen debe llamarse `apacheserver_p1`.
-4. Subir el enlace de la imagen creada a la tarea del CV.
-
+1. Crear un contenedor con Apache Server 2 (buscar en Docker Hub)
+2. Personalizar el contenedor. El servidor por defecto muestra en la página principal "It works!". Modificar este mensaje para que muestre un saludo personal: "Hello + (tu nombre y apellidos)!".
+3. Configurarlo para que por defecto utilice el puerto 8082.
+4. Subir la imagen del contenedor creado a Docker Hub. La imagen debe llamarse `apacheserver_p1`.
