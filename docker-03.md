@@ -509,8 +509,6 @@ Ver la configuración de la red creada
 
 ## Práctica 3
 
-_(Tarea disponible en el Campus Virtual)_
-
 Subir el fichero `docker-compose.yml` creado y todo lo necesario, y además, un documento Markdown con la explicación de la configuración realizada en el fichero. Incluir también las capturas donde se requiera mostrar en el navegador el correcto funcionamiento de los contenedores.
 
 ---
@@ -532,28 +530,3 @@ Subir el fichero `docker-compose.yml` creado y todo lo necesario, y además, un 
 4) Comprobar que puede acceder a `localhost:82` y puede visualizar la página de configuración de wordpress.
 
 ---
-
-## Task 3
-
-_(Task available in the Virtual Campus)_
-
-Upload the file `docker-compose.yml` created and everything needed, and also a Markdown document with the explanation of the configuration made in the file. Include also the screenshots where it is required to show in the browser the correct functioning of the containers.
-
----
-
-### Part 1
-
-1) Create a `docker-compose.yml` file with two services: drupal + mysql.
-2) Make the drupal service use port 81.
-3) Make both containers use a `volumeDocker`.
-4) Check that you can access `localhost:81` and you can see the drupal configuration page.
-
----
-
-### Part 2
-
-1) Create a `docker-compose.yml` file with two services: wordpress + mariadb.
-2) Make the wordpress service use port 82.
-3) Make both containers use the `networkDocker` network.
-4) Check that you can access `localhost:82` and can see the wordpress configuration page.
-

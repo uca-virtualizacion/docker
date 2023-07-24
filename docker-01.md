@@ -547,14 +547,3 @@ Tareas:
 3. Subir la imagen del contenedor creado a Docker Hub. La imagen debe llamarse `apacheserver_p1`.
 4. Subir el enlace de la imagen creada a la tarea del CV.
 
-# Task assignment 1
-
-Create a container with Apache Server. The default server displais “It works!” on the main page. Update this message to show a personal greeting: “Hello + (your first and last name)!”. Finally, configure the container to use the port 8082 by default.
-
-Steps:
-
-1. Create a container with Apache 2 (search in Docker Hub website).
-2. Customize the container.
-3. Upload the created container image to Docker Hub. The image name must be `apacheserver_P1`.
-4. Upload the Docker Hub link of your image to the CV task.
-

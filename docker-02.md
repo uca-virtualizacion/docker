@@ -375,29 +375,3 @@ Escribir un documento markdown con los comandos realizados para resolver los sig
 7. Intentar de nuevo hacer ping a `Ubuntu1` desde `Ubuntu2`. ¿Funciona? ¿Por qué?.
 
 ---
-
-## Task 2
-
-Write a markdown document with the commands to be run to solve the following tasks. Answer also the proposed questions and include screenshots where it is required to check the correct functioning of containers.
-
----
-
-###  Part 1
-
-1. Create shared volume `DockerVolume`
-2. Create a Nginx container that uses the `DockerVolume` volume.
-3. Update the `index.html` file contents by including a personal greeting instead of the default message.
-4. Create a second container that uses the `DockerVolume` volume.
-5. Check that you can access `localhost:80` (first container) and `localhost:81` (second container) and see the content of `index.html`.
-
----
-
-### Part 2
-
-1. Create a new `DockerNetwork` network.
-2. Create an Ubuntu container `Ubuntu1`.
-3. Create an Ubuntu container `Ubuntu2`.
-4. Connect `Ubuntu1` to the `DockerNetwork` network.
-5. Try to _ping_ from `Ubuntu1` to `Ubuntu2`. Does it work? Why?
-6. Connect `Ubuntu2` to the `DockerNetwork` network.
-7. Try to _ping_ from `Ubuntu1` to `Ubuntu2` again. Does it work? Why?
