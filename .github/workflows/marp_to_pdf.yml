@@ -25,9 +25,6 @@ jobs:
       - name: Install npm
         run: npm install
         working-directory: './marp'
-      - name: Install npx
-        run: npm install -g npx
-        working-directory: './marp'
       - name: Install marp-cli
         run: npm install @marp-team/marp-cli
         working-directory: './marp'
