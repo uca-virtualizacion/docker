@@ -507,13 +507,13 @@ Ver la configuración de la red creada
 
 ---
 
-## Práctica 3
+# Ejercicio: Docker compose con servidor y base de datos
 
 Subir el fichero `docker-compose.yml` creado y todo lo necesario, y además, un documento Markdown con la explicación de la configuración realizada en el fichero. Incluir también las capturas donde se requiera mostrar en el navegador el correcto funcionamiento de los contenedores.
 
 ---
 
-### Parte 1
+## Parte 1
 
 1) Crear un fichero `docker-compose.yml` con dos servicios: drupal + mysql.
 2) Hacer que el servicio drupal utilice el puerto 81.
@@ -522,7 +522,7 @@ Subir el fichero `docker-compose.yml` creado y todo lo necesario, y además, un 
 
 ---
 
-### Parte 2
+## Parte 2
 
 1) Crear un fichero `docker-compose.yml` con dos servicios: wordpress +  mariadb.
 2) Hacer que el servicio wordpress utilice el puerto 82.

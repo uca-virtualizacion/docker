@@ -38,6 +38,12 @@ img[alt~="center"] {
 3. Empaquetador de aplicaciones
 4. Un sistema de virtualización
 
+<!--
+
+Un entorno chroot es un entorno aislado del sistema, donde se pueden instalar aplicaciones y librerías sin que afecte al sistema principal.
+
+-->
+
 ---
 
 ## ¿Qué es Docker?
@@ -466,7 +472,7 @@ __WORKDIR:__   directorio para ejecutar los comandos
 
 ---
 
-# Ejemplo de Dockerfile
+## Ejemplo de Dockerfile
 
 Creamos un directorio: `mkdir myapacheweb && cd myapacheweb`
 
@@ -510,7 +516,7 @@ Averiguar el tamaño de las imágenes
 
 ---
 
-## Imagen de Ubuntu
+### Imagen de Ubuntu
 
 La imagen de ubuntu no trae muchas de las herramientas necesarias para comprobar el funcionamiento del contenedor. Se recomienda instalar las siguientes herramientas.
 
@@ -535,9 +541,9 @@ p {
 
 [https://docs.docker.com/get-started/](https://docs.docker.com/get-started/)
 
-# Ejercicio: práctica 1
+# Ejercicio: Apache server
 
-Crear un contenedor con Apache Server. El servidor por defecto muestra en la página principal “It works!”. Modificar este mensaje para que muestre un saludo personal: “Hello + (tu nombre y apellidos)!”. Posteriormente, configurarlo para que por defecto utilice el puerto 8082.
+Crear un contenedor con Apache server 2. El servidor por defecto muestra en la página principal “It works!”. Modificar este mensaje para que muestre un saludo personal: “Hello + (tu nombre y apellidos)!”. Posteriormente, configurarlo para que por defecto utilice el puerto 8082.
 
 Tareas:
 

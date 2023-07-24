@@ -348,13 +348,13 @@ docker run -d --name wordpress -p 8080:8080 -p 8443:8443 \
 
 ---
 
-## Tarea: Práctica 2
+# Ejercicio: Nginx con red y volumen compartido
 
 Escribir un documento markdown con los comandos realizados para resolver los siguientes ejercicios propuestos. Incluir también la respuesta a las preguntas realizadas y capturas donde se requiera mostrar en el navegador el correcto funcionamiento de los contenedores.
 
 ---
 
-### Parte 1
+## Parte 1
 
 1. Crear volumen compartido `volumenDocker`
 2. Crear un contenedor de Nginx que use el volumen `volumenDocker`.
@@ -364,7 +364,7 @@ Escribir un documento markdown con los comandos realizados para resolver los sig
 
 ---
 
-### Parte 2
+## Parte 2
 
 1. Crear una nueva red `redDocker`.
 2. Crear un contenedor de Ubuntu `Ubuntu1`.
