@@ -101,7 +101,7 @@ __Container__: _Include the application and all of its dependencies –– but s
 
 ## Docker Hub
 
- __https://hub.docker.com/__ 
+https://hub.docker.com/
 
 Es un repositorio donde los usuarios de Docker pueden compartir los contenedores que han creado. Además se pueden encontrar repositorios oficiales.
 
@@ -534,7 +534,6 @@ p {
 </style>
 
 [https://docs.docker.com/get-started/](https://docs.docker.com/get-started/)
-
 
 # Ejercicio: práctica 1
 
