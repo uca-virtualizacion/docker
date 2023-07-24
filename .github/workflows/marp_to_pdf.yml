@@ -24,14 +24,19 @@ jobs:
           cache-dependency-path: marp/package-lock.json
       - name: Install npm
         run: npm install
+        working-directory: './marp'
       - name: Install npx
         run: npm install -g npx
+        working-directory: './marp'
       - name: Install marp-cli
         run: npm install @marp-team/marp-cli
+        working-directory: './marp'
       - name: Install marpit
         run: npm install @marp-team/marpit
+        working-directory: './marp'
       - name: Install marp-core
         run: npm install @marp-team/marp-core
+        working-directory: './marp'
       - name: Gather files changed
         uses: trilom/file-changes-action@a6ca26c14274c33b15e6499323aac178af06ad4b
         with:
