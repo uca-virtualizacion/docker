@@ -6,6 +6,9 @@
 
 # Output
 *.html
+html/*.html
+html/img/*.png
+html/img/*.gif
 *.pdf
 
 # Logs
