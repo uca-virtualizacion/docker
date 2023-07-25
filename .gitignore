@@ -9,7 +9,7 @@
 html/*.html
 html/img/*.png
 html/img/*.gif
-*.pdf
+pdf/*.pdf
 
 # Logs
 logs
