@@ -39,8 +39,7 @@ jobs:
         run: cat $HOME/files.txt
       - name: Generate PDFs
         run:
-          for filename in `cat $HOME/files.txt`
-          do
+          for filename in `cat $HOME/files.txt`; do
             if [ $filename == *.md ]
             then
               echo Processing ${filename%%.md}...
@@ -49,8 +48,7 @@ jobs:
           done
       - name: List changed PDF files
         run:
-          for pdffile in pdf/*.pdf
-          do
+          for pdffile in pdf/*.pdf; do
               [ -e "$pdffile" ] || continue
               echo File changed... "$pdffile"
           done
