@@ -42,7 +42,6 @@ jobs:
           mkdir pdf/
           for filename in `cat $HOME/files.txt`
           do
-            [ -e "$filename" ] || continue
             if [[ $filename == *.md ]]
             then
               echo Processing ${filename%%.md}...
