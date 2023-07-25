@@ -39,13 +39,12 @@ jobs:
         run: cat $HOME/files.txt
       - name: Generate PDFs
         run:
-          mkdir pdf/
           for filename in `cat $HOME/files.txt`
           do
             if [[ $filename == *.md ]]
             then
               echo Processing ${filename%%.md}...
-              ./marp/pdf-build.sh ${filename%%.md}
+              marp --allow-local-files --config-file ./marp/marp-engine.js --pdf $1.md --pdf-outlines --pdf-outlines.pages=false --pdf-outlines.headings=true
             fi
           done
       - name: List changed PDF files
