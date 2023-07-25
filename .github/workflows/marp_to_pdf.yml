@@ -1,5 +1,5 @@
-name: 'Marp to generate PDF and upload to LFS'
-run-name: ${{ github.actor }} is generating a PDF with marp and uploading it to LFS
+name: 'Marp to generate PDF and list changed files'
+run-name: ${{ github.actor }} is generating a list of changed PDF with marp
 on:
   workflow_dispatch:
   push:
@@ -13,9 +13,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Set up Git LFS
-        run:
-          git lfs install
       - name: Install NodeJS
         uses: actions/setup-node@v3
         with:
@@ -37,26 +34,25 @@ jobs:
       - name: Gather files changed
         uses: trilom/file-changes-action@a6ca26c14274c33b15e6499323aac178af06ad4b
         with:
-          fileOutput: 'json'
+          fileOutput: ' '
       - name: Show files changed
-        run: cat $HOME/files.json
+        run: cat $HOME/files.txt
       - name: Generate PDFs
         run:
           mkdir pdf/
-          for filename in docker-??.md; do
-              [ -e "$filename" ] || continue
+          for filename in `cat files.txt`
+          do
+            [ -e "$filename" ] || continue
+            if [[ $filename == *.md ]]
+            then
+              echo Processing ${filename%%.md}...
               ./marp/pdf-build.sh ${filename%%.md}
+            fi
           done
-      - name: Move PDF to LFS folder
+      - name: List changed PDF files
         run:
-          mkdir -p .git/lfs/objects/
-          for pdffile in pdf/docker-??.pdf; do
+          for pdffile in pdf/*.pdf
+          do
               [ -e "$pdffile" ] || continue
-              mv $pdffile .git/lfs/objects/
-          done
-      - name: Track PDF with Git LFS
-        run:
-          for pdffile in $PWD/pdf/docker-??.pdf; do
-              [ -e "$pdffile" ] || continue
-              git add .git/lfs/objects/$pdffile
+              echo File changed... "$pdffile"
           done
