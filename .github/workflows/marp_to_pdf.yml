@@ -40,7 +40,7 @@ jobs:
       - name: Generate PDFs
         run:
           mkdir pdf/
-          for filename in `cat files.txt`
+          for filename in `cat $HOME/files.txt`
           do
             [ -e "$filename" ] || continue
             if [[ $filename == *.md ]]
