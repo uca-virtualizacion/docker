@@ -41,7 +41,7 @@ jobs:
         run:
           for filename in `cat $HOME/files.txt`
           do
-            if [[ $filename == *.md ]]
+            if [ $filename == *.md ]
             then
               echo Processing ${filename%%.md}...
               marp --allow-local-files --config-file ./marp/marp-engine.js --pdf $1.md --pdf-outlines --pdf-outlines.pages=false --pdf-outlines.headings=true
