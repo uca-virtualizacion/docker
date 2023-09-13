@@ -115,3 +115,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+
+# PDF created with Marp:
+docker-01.pdf
+docker-02.pdf
+docker-03.pdf
