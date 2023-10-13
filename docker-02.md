@@ -170,6 +170,7 @@ Editar el fichero con _nano_ (u otro editor)
 ---
 
 Abrir en el host las URL http://localhost:55004/ y https://localhost:55003/
+(para ver los cambios podría ser necesario reiniciar Apache, aunque también podemos reiniciar el contenedor con `docker restart apache-bind-1`)
 
 ![width:550](img/iiss-docker-021.png) ![width:550](img/iiss-docker-022.png)
 
@@ -248,7 +249,7 @@ docker stop apache-volume-2
 docker rm apache-volume-2
 ```
 
-`docker volume remove vol-apache`
+`docker volume rm vol-apache`
 
 ```
 Error response from daemon: remove vol-apache: volume is in use - [4a4794f86...3c8]
@@ -344,13 +345,13 @@ docker run -d --name wordpress -p 8080:8080 -p 8443:8443 \
 
 ---
 
-![width:600 center](img/iiss-docker-024.png)
+![width:600 center](img/wordpress.png)
 
 ---
 
 # Ejercicio: Nginx con red y volumen compartido
 
-Escribir un documento markdown con los comandos realizados para resolver los siguientes ejercicios propuestos. Incluir también la respuesta a las preguntas realizadas y capturas donde se requiera mostrar en el navegador el correcto funcionamiento de los contenedores.
+Realizar los siguientes ejercicios para trabajar los conceptos vistos durante la práctica.
 
 ---
 
@@ -373,5 +374,3 @@ Escribir un documento markdown con los comandos realizados para resolver los sig
 5. Intentar hacer ping a `Ubuntu1` desde `Ubuntu2`. ¿Funciona? ¿Por qué?.
 6. Conectar `Ubuntu2` a la red `redDocker`.
 7. Intentar de nuevo hacer ping a `Ubuntu1` desde `Ubuntu2`. ¿Funciona? ¿Por qué?.
-
----
