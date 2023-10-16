@@ -300,11 +300,7 @@ Saber qué contenedores usan un tipo de red: `docker network inspect bridge`
 
 WordPress empaquetado en un contenedor:
 
-https://github.com/bitnami/bitnami-docker-wordpress
-
-Configuración manual de la red:
-
-https://github.com/bitnami/bitnami-docker-wordpress#using-the-docker-command-line
+https://github.com/bitnami/charts/tree/main/bitnami/wordpress
 
 Crear una nueva red:
 
