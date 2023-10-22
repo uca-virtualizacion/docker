@@ -396,9 +396,7 @@ services:
       image: redis:4.0.11-alpine
 ```
 
-Intentamos escalar el servicio de nuevo:
-
-`docker-compose up -d --scale app=3`
+Intentamos escalar el servicio de nuevo (hay que usar una versión actualizada de docker-compose https://stackoverflow.com/questions/49839028/how-to-upgrade-docker-compose-to-latest-version)
 
 ---
 
@@ -410,7 +408,7 @@ Si persisten los conflictos de puertos, comprobar qué puertos están ocupados y
 
 Abrir en el navegador `localhost:80`, `localhost:81`, etc.
 
-Probar a ejecutar varias veces el siguiente comando con distintos datos (`'{"name":"Ana"}'`, `'{"name":"Belén"}'`, etc.) y distintos endpoints (`localhost:80`, `localhost:81`, `localhost:82`). ¿Se comparten o no los valores almacenados en `redis`? ¿Y si lanzáramos varias instancias del contenedor `redis`?
+Probar a ejecutar el comando con distintos datos (`'{"name":"Ana"}'`, `'{"name":"Belén"}'`...) y distintos endpoints (`localhost:80`, `localhost:81`...). ¿Se comparten los valores almacenados en `redis`? ¿Y si lanzáramos varias instancias del contenedor `redis` con `docker-compose up -d --scale app=3 --scale redis=3`?
 
 ```bash
 curl --header "Content-Type: application/json" \
