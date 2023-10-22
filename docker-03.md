@@ -502,27 +502,3 @@ Ejecutamos docker-compose
 Ver la configuración de la red creada
 
 `docker network inspect docker-compose-ejemplo1_mynet`
-
----
-
-# Ejercicio: Docker compose con servidor y base de datos
-
-Subir el fichero `docker-compose.yml` creado y todo lo necesario, y además, un documento Markdown con la explicación de la configuración realizada en el fichero. Incluir también las capturas donde se requiera mostrar en el navegador el correcto funcionamiento de los contenedores.
-
----
-
-## Parte 1
-
-1) Crear un fichero `docker-compose.yml` con dos servicios: drupal + mysql.
-2) Hacer que el servicio drupal utilice el puerto 81.
-3) Hacer que ambos contenedores usen un volumen `volumenDocker`.
-4) Comprobar que puede acceder a `localhost:81` y puede visualizar la página de configuración de drupal.
-
----
-
-## Parte 2
-
-1) Crear un fichero `docker-compose.yml` con dos servicios: wordpress +  mariadb.
-2) Hacer que el servicio wordpress utilice el puerto 82.
-3) Hacer que ambos contenedores usen la red `redDocker`.
-4) Comprobar que puede acceder a `localhost:82` y puede visualizar la página de configuración de wordpress.
