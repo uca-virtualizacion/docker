@@ -551,7 +551,7 @@ p {
 
 [https://docs.docker.com/get-started/](https://docs.docker.com/get-started/)
 
-# Ejercicio: Apache server
+# Ejercicio 1: Apache server
 
 Tareas:
 
@@ -559,3 +559,16 @@ Tareas:
 2. Personalizar el contenedor. El servidor por defecto muestra en la página principal "It works!". Modificar este mensaje para que muestre un saludo personal: "Hello + (tu nombre y apellidos)!".
 3. Configurarlo para acceder mediante el puerto 8082.
 4. Subir la imagen del contenedor creado a Docker Hub. La imagen debe llamarse `apacheserver_p1`.
+
+---
+
+# Ejercicio 2: Crear un contenedor con Nginx y un fichero HTML
+
+Tareas:
+
+1. Crear un directorio llamado `my-html-folder`.
+2. Dentro de este directorio, crear un fichero llamado `index.html` con cualquier contenido HTML.
+3. Crear un fichero llamado `Dockerfile` con las instrucciones necesarias para crear una imagen de Nginx que muestre el contenido del fichero `index.html` (Consultar la documentación de Nginx en Docker Hub).
+4. Construir la imagen y ejecutar un contenedor con ella.
+5. Configurarlo para acceder mediante el puerto 1234.
+4. Subir la imagen del contenedor creado a Docker Hub. La imagen debe llamarse `nginxserver_p1`.
