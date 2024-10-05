@@ -68,7 +68,9 @@ Se puede crear un  _container_ para la aplicación, de modo que se ejecuten igua
 
 ### 4. Un sistema de virtualización
 
-__Virtual machine__: _Include the application, the necessary binaries and libraries, and an entire guest operating system –– all of which can amount to tens of GBs._
+<!--__Virtual machine__: _Include the application, the necessary binaries and libraries, and an entire guest operating system –– all of which can amount to tens of GBs._-->
+
+__Virtual machine__: _Incluye la aplicación, las librerías y archivos necesarios, y un sistema operativo completo, lo que puede llegar a ocupar varios GBs._
 
 ![Virtual machine](img/docker-011.png)
 
@@ -76,7 +78,9 @@ __Virtual machine__: _Include the application, the necessary binaries and librar
 
 ## Virtualización
 
-__Container__: _Include the application and all of its dependencies –– but share the kernel with other containers, running as isolated processes in user space on the host operating system. Docker containers are not tied to any specific infrastructure: they run on any computer, on any infrastructure, and in any cloud._
+<!--__Container__: _Include the application and all of its dependencies –– but share the kernel with other containers, running as isolated processes in user space on the host operating system. Docker containers are not tied to any specific infrastructure: they run on any computer, on any infrastructure, and in any cloud._-->
+
+__Contenedor__: _Incluye la aplicación y todas sus dependencias, pero comparte el kernel con otros contenedores, ejecutándose como procesos aislados en el espacio de usuario del sistema operativo anfitrión. Los contenedores de Docker no están atados a ninguna infraestructura específica: se ejecutan en cualquier ordenador, en cualquier infraestructura y en cualquier nube._
 
 ![Container](img/docker-012.png)
 
@@ -151,7 +155,7 @@ bcdedit /set hypervisorlaunchtype auto
 
 ---
 
-## Usos sin necesidad de _sudo_ (opcional)
+## Usos sin necesidad de _sudo_ (recomendable)
 
 Para ejecutar el daemon de Docker y los contenedores sin ser superusuarios:
 
@@ -217,7 +221,7 @@ Iniciar sesión desde el terminal
 
 Ver los repositorios locales descargados
 
-`docker images`
+`docker images` / `docker image ls`
 > Tendremos el hello-world que hemos utilizado para comprobar que el servicio funcionaba
 
 ---
@@ -232,9 +236,11 @@ Descargar la versión oficial
 
 `docker pull ubuntu`
 
-> Podemos usar opciones como `ubuntu:14.04`, `ubuntu:latest`, etc.
+ > Podemos usar opciones como `ubuntu:14.04`, `ubuntu:latest`, etc.
 
 Ejecutamos el contenedor
+
+ > `run [nombre_imagen] [comando]`
 
 `docker run ubuntu /bin/echo "Pues parece que funciona"`
 
@@ -256,7 +262,7 @@ Ver los contenedores que se han creado
 
 `docker ps -a`
 
-Ver el último repositorio creado
+Ver el último contenedor creado
 
 `docker ps -l`
 
@@ -274,6 +280,7 @@ Poner nombre a un contenedor
 
  `-t` incluye terminal dentro del contenedor
  `-i` se puede trabajar de manera interactiva
+ Se pueden poner unidos y/o en diferente orden: `-it`
 
 Para salir del terminal
 
@@ -283,12 +290,12 @@ Para salir del terminal
 
 ## Trabajando en los contenedores en ejecución
 
-Poner nombre a un contenedor
-
 ```bash
 docker run --name myUbuntu ubuntu /bin/bash \
     -c "while true; do echo hola mundo; sleep 1; done"
 ```
+
+> `-c` ejecuta un comando en el contenedor
 
 Vemos los contenedores que se están ejecutando
 
@@ -304,24 +311,22 @@ Borrar un contenedor
 
 ---
 
-## Trabajando en los contenedores ejecutando en segundo plano
-
-Poner nombre a un contenedor
+## Contenedores ejecutando en segundo plano
 
 ```
 docker run -d --name myUbuntu ubuntu /bin/bash \
     -c "while true; do echo hola mundo; sleep 1; done"
 ```
 
- > **-d** significa que se trabaje en segundo plano_ 
+ > **-d** significa que se trabaje en segundo plano
 
 Vemos los contenedores que se están ejecutando: `docker ps`
 
 Podemos ver la salida de nuestro contenedor: `docker logs myUbuntu`
 
-Detenemos el contenedor
+Detenemos el contenedor: `docker stop [nombre contendedor]`
 
-`docker stop [nombre contendedor]`
+Iniciar un contenedor existente: `docker start [nombre contendedor]`
 
 Abrir terminal de un determinado contenedor
 
@@ -347,22 +352,22 @@ Importar desde un fichero local
 
 ---
 
-## Ejemplo: contenedor con aplicación web en Python
+## Ejemplo: contenedor con servidor nginx
 
-Descargamos la imagen
+Ejecutamos [nginx](https://hub.docker.com/_/nginx) (descarga automática si no está en el repositorio local)
 
-`docker run -d -P training/webapp python app.py`
+`docker run --name myNginx -d -P nginx`
 
 > __-d__ trabajar en segundo plano
 > __-P__ mapea los puertos a nuestro host para poder ver la aplicación
 
-Ejecuta con `python` la aplicación web de servidor `app.py`, contenida en la imagen `training/webapp`
+No necesitamos especificar comando, ya que la imagen de nginx tiene un comando por defecto
 
 Vemos los puertos usados: `docker ps -a`
 
-> La opción **-P** redirecciona los puertos del contenedor de la imagen (en este caso el 5000) a un puerto de nuestro host local: `[0.0.0.0:55000->5000/tcp]`
+> La opción **-P** redirecciona los puertos del contenedor de la imagen (en este caso el 80) a un puerto de nuestro host local: `[0.0.0.0:XXXXX->80/tcp]`
 
-Abrir en el navegador http://localhost:55000/
+Abrir en el navegador [http://localhost:XXXXX/]()
 
 ---
 
@@ -370,40 +375,40 @@ Abrir en el navegador http://localhost:55000/
 
 Especificando un puerto en el host
 
-`docker run --name myWeb -d -p 80:5000 training/webapp python app.py`
+`docker run --name myNginx2 -d -p 2000:80 nginx`
 
-> **-p** mapea el puerto 80 del host local al 5000 del contenedor
+> **-p** mapea el puerto 2000 del host local al 80 del contenedor
 
-Abrir en el navegador http://localhost
+Abrir en el navegador http://localhost:2000/
 
 Podemos ver los puertos asociados a nuestro contenedor
 
-`docker port [nombre contenedor] puerto`
+`docker port [nombre_contenedor] [puerto_contenedor]`
 
-`docker port myWeb 5000`
+`docker port myNginx 80`
 
 Podemos ver los logs de nuestra aplicación
 
-`docker logs -f myWeb`
+`docker logs -f myNginx`
 > **-f** muestra los logs de manera continua
 
 ---
 
 Ver procesos que se están ejecutando en el contenedor 
 
-`docker top myWeb`
+`docker top myNginx`
 
 Inspeccionar la máquina
 
-`docker inspect myWeb`
+`docker inspect myNginx`
 
 Detener el contenedor
 
-`docker stop myWeb`
+`docker stop myNginx`
 
 Reiniciar un contenedor
 
-`docker start myWeb`
+`docker start myNginx`
 
 ---
 
@@ -415,26 +420,29 @@ Reiniciar un contenedor
 
 ### Creación desde una imagen
 
-Ejecutar el contenedor `myWeb`
+Ejecutar un nuevo contenedor nginx
 
-`docker run --name myWeb -t -i  -d -p 80:5000 training/webapp python app.py`
+`docker run --name myNginx3 -ti -d -p 3000:80 nginx`
 
 Abrir un terminal del contenedor
 
-`docker exec -t -i myWeb /bin/bash`
+`docker exec -t -i myNginx3 /bin/bash`
 
 ---
 
-Instalar nano, editar `app.py` y hacer commit
+Instalar nano, personalizar bienvenida y hacer `docker commit`
 
 ```bash
-docker commit -m "Modificando saludo" -a "Mi Nombre" ac1c3a5c70ad \
-    usuario/myweb:v2
+apt-get update
+apt-get install nano
+nano /usr/share/nginx/html/index.html
+docker commit -m "Modificando saludo" -a "Nombre Autor" myNginx3 \
+    usuario/mynginx:v2
 ```
 
-> - Especificar el id del contenedor en ejecución a modificar
-> - `usuario`  debe coincidir con nuestro usuario de Docker Hub
-> - El nombre de la imagen `myweb` debe ir en minúsculas
+> - Especificar el nombre o id del contenedor en ejecución a modificar
+> - `usuario` debe coincidir con nuestro usuario de Docker Hub
+> - El nombre de la imagen `mynginx` debe ir en minúsculas
 
 Vemos nuestra nueva imagen
 
@@ -442,9 +450,9 @@ Vemos nuestra nueva imagen
 
 Ejecutar nuestra imagen
 
-```
-docker run --name myWeb2 -t -i  -d -p 80:5000 \
-    usuario/myweb:v2 python app.py
+```bash
+docker run --name myNewNginx -ti -d -p 3500:80 \
+    usuario/mynginx:v2
 ```
 
 ---
@@ -481,17 +489,17 @@ Creamos un fichero llamado Dockerfile: `touch Dockerfile`
 Editamos el fichero con el siguiente contenido:
 
 ```docker
-FROM ubuntu:14.04 
+FROM ubuntu:14.04
 RUN apt-get update && \
-  apt-get install -y apache2 && \
-  apt-get clean && \
-  rm -rf /var/lib/apt/lists/* 
-RUN echo "<h1>Apache with Docker</h1>" > /var/www/html/index.html 
-ENV APACHE_RUN_USER www-data 
-ENV APACHE_RUN_GROUP www-data 
-ENV APACHE_LOG_DIR /var/log/apache2 
-EXPOSE 80 
-ENTRYPOINT apache2ctl -D FOREGROUND 
+apt-get install -y apache2 && \
+apt-get clean && \
+rm -rf /var/lib/apt/lists/*
+RUN echo "<h1>Apache with Docker</h1>" > /var/www/html/index.html
+ENV APACHE_RUN_USER=www-data
+ENV APACHE_RUN_GROUP=www-data
+ENV APACHE_LOG_DIR=/var/log/apache2
+EXPOSE 80
+ENTRYPOINT ["apache2ctl", "-D", "FOREGROUND"]
 ```
 
 ---
@@ -502,7 +510,7 @@ Construcción de nuestra imagen
 
 Ejecutamos nuestra imagen
 
-`docker run -i -t -p 3333:80 --name myserver usuario/myserver:latest`
+`docker run -ti -p 3333:80 --name myserver usuario/myserver:latest`
 
 Probar el contenedor y abrir http://localhost:3333/
 
@@ -549,5 +557,5 @@ Tareas:
 
 1. Crear un contenedor con Apache Server 2 (buscar en Docker Hub)
 2. Personalizar el contenedor. El servidor por defecto muestra en la página principal "It works!". Modificar este mensaje para que muestre un saludo personal: "Hello + (tu nombre y apellidos)!".
-3. Configurarlo para que por defecto utilice el puerto 8082.
+3. Configurarlo para acceder mediante el puerto 8082.
 4. Subir la imagen del contenedor creado a Docker Hub. La imagen debe llamarse `apacheserver_p1`.
