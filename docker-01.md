@@ -560,8 +560,6 @@ Tareas:
 3. Configurarlo para acceder mediante el puerto 8082.
 4. Subir la imagen del contenedor creado a Docker Hub. La imagen debe llamarse `apacheserver_p1`.
 
----
-
 # Ejercicio 2: Crear un contenedor con Nginx y un fichero HTML
 
 Tareas:
