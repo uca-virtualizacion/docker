@@ -34,7 +34,7 @@ img[alt~="center"] {
 
 `docker ps -a` Contenedores creados (incluye los que están parados)
 
-`docker container ls`  (con o sin -a)
+`docker container ls` (con o sin -a)
 
 `docker run NOMBRE_IMAGEN` Crear un contenedor (si no tiene la imagen en local, la descarga)
 
@@ -62,13 +62,13 @@ Elegir el nombre del contenedor (debe ser único en local):
 
 Crear un contenedor asignando un puerto random en local:
 
-`docker run -d -P --name=apache-server bitnami/apache`
+`docker run -d -P --name=nginx-server nginx`
 
 `docker ps -a` (para ver puerto asignado)
 
 Ejecutar terminal en el contenedor creado:
 
-`docker exec -it apache-server /bin/bash`
+`docker exec -it nginx-server /bin/bash`
 
 ---
 
@@ -103,8 +103,8 @@ Subir nueva imagen a Docker Hub:
 Para compartir información con Docker cuando necesitamos:
 
 - Compartir un __directorio__ entre múltiple contenedores.
-- Compartir __un directorio__ entre el host y un contenedor.
-- Compartir __un fichero__ entre el host y un contenedor.
+- Compartir un __directorio__ entre el host y un contenedor.
+- Compartir un __fichero__ entre el host y un contenedor.
 
 Opciones:
 
@@ -169,8 +169,9 @@ Editar el fichero con _nano_ (u otro editor)
 
 ---
 
+Reiniciar Apache para que muestre los cambios. También podemos reiniciar el contenedor con `docker restart apache-bind-1`
+
 Abrir en el host las URL http://localhost:55004/ y https://localhost:55003/
-(para ver los cambios podría ser necesario reiniciar Apache, aunque también podemos reiniciar el contenedor con `docker restart apache-bind-1`)
 
 ![width:550](img/iiss-docker-021.png) ![width:550](img/iiss-docker-022.png)
 
@@ -198,6 +199,8 @@ docker run -d -P --name=apache-bind-2 \
 ### Ejemplo con volúmenes (1)
 
 Creando un volumen para la web
+
+`docker volume create --name vol-apache`
 
 ```
 docker run -d -P --name=apache-volume-1 \
@@ -289,10 +292,10 @@ NETWORK ID     NAME      DRIVER    SCOPE
 ```
 
 - **host** representa la red del propio equipo y haría referencia a `eth0`
-- **bridge** representa la red `docker0` y a ella se conectan todos los contenedores por defecto 
+- **bridge** representa la red `docker0` y a ella se conectan todos los contenedores por defecto
 - **none** significa que el contenedor no se incluye en ninguna red. Si verificamos esto con el comando `ifconfig` dentro del contenedor, veríamos que sólo tiene la interfaz de loopback `lo`
 
-Saber qué contenedores usan un tipo de red: `docker network inspect bridge`
+Saber qué contenedores usan un tipo de red y su información de red: `docker network inspect bridge`
 
 ---
 
@@ -300,6 +303,7 @@ Saber qué contenedores usan un tipo de red: `docker network inspect bridge`
 
 WordPress empaquetado en un contenedor:
 
+https://hub.docker.com/r/bitnami/wordpress
 https://github.com/bitnami/charts/tree/main/bitnami/wordpress
 
 Crear una nueva red:
@@ -341,15 +345,20 @@ docker run -d --name wordpress -p 8080:8080 -p 8443:8443 \
 
 ---
 
-![width:600 center](img/wordpress.png)
+![width:800 center](img/wordpress.png)
 
----
+# Ejercicio 1: Probar el wordpress creado
 
-# Ejercicio: Nginx con red y volumen compartido
+1. Acceder a `http://localhost:8080/wp-admin/` para administrar WordPress (buscar usuario y contraseña en la documentación)
+2. Crear una nueva página desde Pages > Add New Page
+3. Acceder a `http://localhost:8080/` para ver la página creada
+4. Borrar los contenedores creados y comprobarlo en el navegador
+5. Crear de nuevo los contenedores. ¿La página sigue existiendo? ¿Por qué?
+6. Borrar los contenedores y los volúmenes creados
+7. Crear de nuevo los contenedores y los volúmenes. ¿La página sigue existiendo? ¿Por qué?
 
-Realizar los siguientes ejercicios para trabajar los conceptos vistos durante la práctica.
 
----
+# Ejercicio 2: Nginx con red y volumen compartido
 
 ## Parte 1
 
@@ -357,16 +366,15 @@ Realizar los siguientes ejercicios para trabajar los conceptos vistos durante la
 2. Crear un contenedor de Nginx que use el volumen `volumenDocker`.
 3. Modifique el contenido del fichero `index.html` incluyendo un saludo personal en lugar del texto por defecto.
 4. Cree un segundo contenedor que también use el volumen `volumenDocker`.
-5. Compruebe que puede acceder a `localhost:80` (primer contenedor) y `localhost:81` (segundo contenedor) y ver el contenido de `index.html`.
+5. Compruebe que puede acceder a `localhost:81` (primer contenedor) y `localhost:82` (segundo contenedor) y ver el contenido de `index.html`.
 
 ---
 
 ## Parte 2
 
 1. Crear una nueva red `redDocker`.
-2. Crear un contenedor de Ubuntu `Ubuntu1`.
-3. Crear un contenedor de Ubuntu `Ubuntu2`.
-4. Conectar `Ubuntu1` a la red `redDocker`.
-5. Intentar hacer ping a `Ubuntu1` desde `Ubuntu2`. ¿Funciona? ¿Por qué?.
-6. Conectar `Ubuntu2` a la red `redDocker`.
-7. Intentar de nuevo hacer ping a `Ubuntu1` desde `Ubuntu2`. ¿Funciona? ¿Por qué?.
+2. Crear un contenedor de Ubuntu `Ubuntu1` conectado a redDocker.
+3. Crear un contenedor de Ubuntu `Ubuntu2` sin conectarlo a redDocker.
+3. Instalar los paquetes necesarios y hacer ping a `Ubuntu1` desde `Ubuntu2`. ¿Funciona? ¿Por qué?.
+4. Buscar en la documentación cómo conectar un contenedor existente a una red y conectar `Ubuntu2` a la red `redDocker`.
+5. Intentar de nuevo hacer ping a `Ubuntu1` desde `Ubuntu2`. ¿Funciona? ¿Por qué?.
