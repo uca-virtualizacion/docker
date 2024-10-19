@@ -1,0 +1,19 @@
+services:
+  drupal:
+    image: drupal
+    ports:
+      - "81:80"
+    volumes:
+      - volumenDrupal:/var/www/html
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: drupal_db
+      MYSQL_USER: drupal_user
+      MYSQL_PASSWORD: drupal_password
+    volumes:
+      - volumenMysql:/var/lib/mysql
+volumes:
+  volumenDrupal:
+  volumenMysql:
