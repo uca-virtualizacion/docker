@@ -32,8 +32,8 @@ El entregable consta de dos partes. En la primera parte se debe crear un fichero
 
 Deben subirse a la tarea habilitada en el campus virtual los siguientes ficheros:
 - Los dos ficheros `docker-compose.yml`
-- Un documento Markdown con una breve explicación de las configuraciones realizadas
-- Un video explicativo de entre 6 y 8 minutos en calidad media (720p) donde se explique el funcionamiento de los contenedores. El video debe incluir la explicación de las configuraciones realizadas en cada fichero `docker-compose.yml` y mostrar en el navegador el correcto funcionamiento de los contenedores
+- Un documento Markdown con una documentación de las configuraciones realizadas
+- Un video explicativo de entre 4 y 7 minutos en calidad media (720p) donde se explique el funcionamiento de los contenedores. El video debe incluir la explicación de las configuraciones realizadas en cada fichero `docker-compose.yml` y mostrar en el navegador el correcto funcionamiento de los contenedores
 
 ---
 
