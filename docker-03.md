@@ -148,9 +148,9 @@ Configurar múltiples contenedores como servicios cuando necesitamos:
 ### Características
 
 - Permite desplegar los contenedores en un único host (limitación).
-- En el caso de que se quiera desplegar en un cluster hay que utilizar [Docker Swarm](https://www.ionos.es/digitalguide/servidores/know-how/docker-compose-y-swarm-gestion-multicontenedor/)
+- En el caso de que se quiera desplegar en un cluster hay que utilizar [Docker Swarm](https://docs.docker.com/engine/swarm/)
 
-Nosotros solo trabajaremos con Docker Compose...
+Nosotros solo trabajaremos con Docker Compose.
 
 ---
 
@@ -158,10 +158,9 @@ Nosotros solo trabajaremos con Docker Compose...
 
 Secciones principales del fichero Docker Compose que vamos a utilizar:
 
-- **Version**: especifica la versión del fichero Docker Compose, si no se establece por defecto es la 1.
-- **Services**: especifica los servicios de su aplicación, es decir, los contenedores que van a ejecutarse.
-- **Networks**: especifica la configuración de red que van a utilizar los servicios.
-- **Volumes**: especifica los volúmenes que van a utilizar los servicios para guardar/leer la información.
+- **Services**: servicios de la aplicación: los contenedores que van a ejecutarse.
+- **Networks**: configuración de red que van a utilizar los servicios.
+- **Volumes**: volúmenes que van a utilizar los servicios para guardar/leer la información.
 
 ---
 
@@ -225,11 +224,9 @@ CMD flask run --host=0.0.0.0
 5. Creamos el fichero `docker-compose.yml`
 
 ```yml
-version: '3'
 services:
   app:
     build: .
-    image: dodero/flask-redis:1.0
     environment:
       - FLASK_ENV=development
     ports:
@@ -255,9 +252,9 @@ Cambiarse a la carpeta: `cd ~/docker-compose-ejemplo1`
 
 Ejecutar Docker Compose:
 
-`docker-compose up`  (añadir `-d` para ejecutar en background)
+`docker compose up`  (añadir `-d` para ejecutar en background)
 
-**NOTA**: docker-compose está instalado en Windows y MacOS por defecto. En linux hay que instalarlo manualmente.
+**NOTA**: *docker-compose* es una herramienta independiente, mientras que *docker compose* es una versión más nueva integrada en Docker CLI que ofrece mejoras y facilidad de uso.
 
 ---
 
@@ -295,7 +292,7 @@ Probando el ejemplo (obteniendo los estudiantes creados): Acceder a `localhost:5
 
 Parar el servicio
 
-`docker-compose down`
+`docker compose down`
 
 Visualizar la configuración de la red creada
 
@@ -305,67 +302,90 @@ Visualizar la configuración de la red creada
 
 Procesos que están ejecutándose:
 
-`docker-compose ps`
+`docker compose ps`
 
-`docker-compose top`
+`docker compose top`
 
 ---
 
 Ver los logs generados por estos procesos:
 
-`docker-compose logs`
+`docker compose logs`
 
 Ejecutar un comando en un contenedor iniciado:
 
-`docker-compose exec app ps`
-
-Subir las imágenes de los servicios a DockerHub:
-
-`docker-compose push app`
-
-`docker-compose push redis`
-
-Actualizar las imágenes de los servicios:
-
-`docker-compose pull app`
-
-`docker-compose pull redis`
+`docker compose exec [nombre_servicio] [comando]`
+`docker compose exec app ps`
 
 ---
 
-Actualización del fichero `docker-compose.yml`:
+## Más opciones de configuración con Docker Compose
 
 ```yml
-version: '3'
 services:
   app:
     build: 
       context: .
+      dockerfile: Dockerfile
       args:
         - IMAGE_VERSION=3.7.0-alpine3.8
-    image: dodero/flask-redis:1.0
     environment:
       - FLASK_ENV=development
     ports:
-      - 80:5000
+      - 5000:5000
   redis:
     image: redis:4.0.11-alpine
 ```
 
-Ejecutamos `docker-compose up -d` y sólo se regenera lo necesario (docker-compose mantiene los estados)
+* context: directorio donde se encuentra el Dockerfile
+* dockerfile: nombre del Dockerfile
+* args: variables de entorno que se pueden pasar al Dockerfile
 
 ---
 
-### Escalar servicios
+En el fichero `Dockerfile` se pueden usar variables pasadas desde el fichero `docker-compose.yml`:
+
+```dockerfile
+FROM python:3.7.0-alpine3.8
+...
+```
+
+```dockerfile
+FROM python:${IMAGE_VERSION}
+...
+```
+---
+
+## Actualización del fichero `docker-compose.yml`:
+
+Cambiamos el puerto de la aplicación a 5555
+
+```yml
+services:
+  app:
+    build: .
+    environment:
+      - FLASK_ENV=development
+    ports:
+      - 5555:5000
+  redis:
+    image: redis:4.0.11-alpine
+```
+
+Ejecutamos `docker compose up -d` y sólo se regenera lo necesario (docker compose mantiene los estados)
+
+---
+
+## Escalar servicios
 
 Se pueden arrancar varias instancias de un mismo servicio para así escalarlo
 
 Escalar un servicio con Docker Compose:
 
-`docker-compose up -d --scale app=3` Falla, ¿por qué?
+`docker compose up -d --scale app=3` Falla, ¿por qué?
 
 ```console
-$ docker-compose up -d --scale app=3
+$ docker compose up -d --scale app=3
 [+] Running 2/4
  ⠿ Container docker-compose-ejemplo1-redis-1  Running                                                                 0.0s
  ⠿ Container docker-compose-ejemplo1-app-3    Running                                                                 0.0s
@@ -377,26 +397,19 @@ Error response from daemon: driver failed programming external connectivity on e
 
 ---
 
-Actualizamos el fichero `docker-compose.yml` eliminando la redirección de puertos:
+Actualizamos el fichero `docker-compose.yml` modificando la redirección de puertos:
 
 ```yml
-version: '3'
 services:
-    app:
-      build:
-        context: .
-        args:
-          - IMAGE_VERSION=3.7.0-alpine3.8
-      image: dodero/flask-redis:1.0
-      environment:
-        - FLASK_ENV=development
-      ports:
-        - “80-83:5000”
-    redis:
-      image: redis:4.0.11-alpine
+  app:
+    build: .
+    environment:
+      - FLASK_ENV=development
+    ports:
+      - "80-83:5000"
+  redis:
+    image: redis:4.0.11-alpine
 ```
-
-Intentamos escalar el servicio de nuevo (hay que usar una versión actualizada de docker-compose https://stackoverflow.com/questions/49839028/how-to-upgrade-docker-compose-to-latest-version)
 
 ---
 
@@ -408,7 +421,7 @@ Si persisten los conflictos de puertos, comprobar qué puertos están ocupados y
 
 Abrir en el navegador `localhost:80`, `localhost:81`, etc.
 
-Probar a ejecutar el comando con distintos datos (`'{"name":"Ana"}'`, `'{"name":"Belén"}'`...) y distintos endpoints (`localhost:80`, `localhost:81`...). ¿Se comparten los valores almacenados en `redis`? ¿Y si lanzáramos varias instancias del contenedor `redis` con `docker-compose up -d --scale app=3 --scale redis=3`?
+Probar a ejecutar el comando con distintos datos (`'{"name":"Ana"}'`, `'{"name":"Belén"}'`...) y distintos endpoints (`localhost:80`, `localhost:81`...). ¿Se comparten los valores almacenados en `redis`? ¿Y si lanzáramos varias instancias del contenedor `redis` con `docker compose up -d --scale app=3 --scale redis=3`?
 
 ```bash
 curl --header "Content-Type: application/json" \
@@ -416,6 +429,13 @@ curl --header "Content-Type: application/json" \
    --data '{"name":"Usuario"}' \
    localhost:80
 ```
+---
+
+* No hay una asignación directa entre las instancias de app y redis.
+
+* Docker utiliza un balanceo de carga para distribuir las conexiones entre las instancias escaladas de redis.
+
+* Si necesitas controlar detalladamente la asignación instancias de app a redis (por ejemplo, una instancia de app siempre hablando con una instancia de redis específica), necesitarías un orquestador más avanzado como Kubernetes
 
 ---
 
@@ -430,15 +450,13 @@ Usando memoria persistente en los contenedores
 Configuramos el volumen en el archivo `docker-compose.yml`
 
 ```yml
-version: '3'
 services:
   app:
     build: .
-    image: dodero/flask-redis:1.0
     environment:
       - FLASK_ENV=development
     ports:
-      - 80:5000
+      - 5000:5000
   redis:
     image: redis:4.0.11-alpine
     volumes:
@@ -449,11 +467,11 @@ volumes:
 
 ---
 
-Ejecutamos docker-compose
+Ejecutamos docker compose
 
-`docker-compose down`
+`docker compose down`
 
-`docker-compose up -d`
+`docker compose up -d`
 
 Consultamos el volumen creado
 
@@ -472,33 +490,36 @@ Conceptos básicos de red con Docker Compose
 Configuramos la red en el archivo `docker-compose.yml`
 
 ```yml
-version: '3'
 services:
   app:
     build: .
-    image: dodero/flask-redis:1.0
     environment:
       - FLASK_ENV=development
     ports:
-      - 80:5000
+      - 5000:5000
     networks:
       - mynet
   redis:
     image: redis:4.0.11-alpine
+    volumes:
+      - mydata:/data
     networks:
       - mynet
+volumes:
+  mydata:
 networks:
   mynet:
 ```
 
 ---
 
-Ejecutamos docker-compose
+Ejecutamos docker compose
 
-`docker-compose down`
+`docker compose down`
 
-`docker-compose up -d`
+`docker compose up -d`
 
 Ver la configuración de la red creada
 
+`docker network ls`
 `docker network inspect docker-compose-ejemplo1_mynet`
