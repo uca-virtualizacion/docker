@@ -562,4 +562,4 @@ Tareas:
 3. Crear un fichero llamado `Dockerfile` con las instrucciones necesarias para crear una imagen de Nginx que muestre el contenido del fichero `index.html` (Consultar la documentación de Nginx en Docker Hub).
 4. Construir la imagen y ejecutar un contenedor con ella.
 5. Configurarlo para acceder mediante el puerto 1234.
-4. Subir la imagen del contenedor creado a Docker Hub. La imagen debe llamarse `nginxserver_p1`.
+4. Subir la imagen (`nginxserver_p1`) del contenedor creado a Docker Hub.
