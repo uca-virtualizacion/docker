@@ -258,12 +258,9 @@ Ver los contenedores en ejecución
 > `IMAGE` es la imagen usada para crearlo
 > `NAME` -- si no se especifica, Docker crea un nombre aleatorio
 
-Ver los contenedores que se han creado
+Ver los contenedores que se han creado / Último contenedor creado
 
 `docker ps -a`
-
-Ver el último contenedor creado
-
 `docker ps -l`
 
 Borrar una imagen
