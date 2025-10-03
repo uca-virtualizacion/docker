@@ -12,6 +12,10 @@ apt-get update
 apt-get install nano
 
 nano /usr/local/apache2/htdocs/index.html
+
+docker commit -m "Modificando saludo" -a "Nombre Autor" apacheserver_p1 usuario/apacheserver_p1
+
+docker push usuario/apacheserver_p1
 ```
 
 # Ejercicio 2

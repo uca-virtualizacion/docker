@@ -403,9 +403,9 @@ Detener el contenedor
 
 `docker stop myNginx`
 
-Reiniciar un contenedor
+Reiniciar un contenedor (no necesita que esté parado)
 
-`docker start myNginx`
+`docker restart myNginx`
 
 ---
 
@@ -441,15 +441,11 @@ docker commit -m "Modificando saludo" -a "Nombre Autor" myNginx3 \
 > - `usuario` debe coincidir con nuestro usuario de Docker Hub
 > - El nombre de la imagen `mynginx` debe ir en minúsculas
 
-Vemos nuestra nueva imagen
-
-`docker images`
-
-Ejecutar nuestra imagen
+Listamos las imágenes y ejecutamos la nueva que hemos creado
 
 ```bash
-docker run --name myNewNginx -ti -d -p 3500:80 \
-    usuario/mynginx:v2
+docker images
+docker run --name myNewNginx -ti -d -p 3500:80 usuario/mynginx:v2
 ```
 
 ---
