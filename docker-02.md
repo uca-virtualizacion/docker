@@ -133,16 +133,16 @@ Ejecutar el contenedor:
 
 ```bash
 docker run -d -P --name=apache-bind-1 \
-  --mount type=bind,source=`pwd`/p02,target=/app bitnami/apache
+  --mount type=bind,source=`pwd`/p02,target=/usr/local/apache2/htdocs httpd
 ```
 
 Comprobar los puertos a los que se ha asignado el 8080 (http) y 8443 (https) del Servidor Apache configurado en el contenedor:
 
 ```bash
 $ docker ps -a
-CONTAINER ID   IMAGE           COMMAND                 CREATED        STATUS         PORTS                                              NAMES
+CONTAINER ID   IMAGE  COMMAND             CREATED        STATUS         PORTS                   NAMES
 ...
-bcaae8157e45   bitnami/apache  "/opt/bitnami/script…"  3 minutes ago  Up 3 minutes   0.0.0.0:55004->8080/tcp, 0.0.0.0:55003->8443/tcp   apache-bind-1
+b30ef7b4060a   httpd  "httpd-foreground"  3 minutes ago  Up 3 minutes   0.0.0.0:55000->80/tcp   apache-bind-1
 ...
 ```
 
@@ -171,9 +171,9 @@ Editar el fichero con _nano_ (u otro editor)
 
 Reiniciar Apache para que muestre los cambios. También podemos reiniciar el contenedor con `docker restart apache-bind-1`
 
-Abrir en el host las URL http://localhost:55004/ y https://localhost:55003/
+Abrir en el host la URL http://localhost:55000/
 
-![width:550](img/iiss-docker-021.png) ![width:550](img/iiss-docker-022.png)
+![width:550](img/docker-apache-example-1.png)
 
 Si eliminamos el contenedor, no perdemos el contenido de la web:
 
@@ -182,7 +182,7 @@ Si eliminamos el contenedor, no perdemos el contenido de la web:
 docker stop apache-bind-1
 docker rm apache-bind-1
 docker run -d -P --name=apache-bind-2 \
-  --mount type=bind,source=`pwd`/p02,target=/app bitnami/apache
+  --mount type=bind,source=`pwd`/p02,target=/usr/local/apache2/htdocs httpd
 ```
 
 ---
@@ -204,7 +204,7 @@ Creando un volumen para la web
 
 ```
 docker run -d -P --name=apache-volume-1 \
-   --mount type=volume,source=vol-apache,target=/app bitnami/apache
+   --mount type=volume,source=vol-apache,target=/usr/local/apache2/htdocs httpd
 ```
 
 Comprobar el puerto asignado con `docker ps -a `
@@ -217,15 +217,15 @@ Acceso al volumen
 
 `docker exec -it apache-volume-1 /bin/bash`
 
-Comprobar que `/app` está vacía y salir con `exit`
+Comprobar que `/usr/local/apache2/htdocs` tiene el contenido original (se ha copiado al volumen) y salir con `exit`
 
 Actualizamos el contenido del volumen
 
 `nano index.html`
 
-`docker cp index.html apache-volume-1:app/`
+`docker cp index.html apache-volume-1:usr/local/apache2/htdocs/`
 
-Acceso de nuevo al volumen y comprobar que está el archivo `index.html`
+Acceso de nuevo al volumen y comprobar que el archivo `index.html` se ha modificado
 
 `docker exec -it apache-volume-1 /bin/bash`
 
@@ -240,7 +240,7 @@ Compartir volumen con otro contenedor
 
 ```
 docker run -d -P --name=apache-volume-2 \
-   --mount type=volume,source=vol-apache,target=/app bitnami/apache
+   --mount type=volume,source=vol-apache,target=/usr/local/apache2/htdocs httpd
 ```
 
 ---
