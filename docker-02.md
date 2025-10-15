@@ -271,6 +271,25 @@ Comprobar que se ha borrado con `docker volume ls`
 
 ---
 
+### Solo lectura
+
+Los directorios enlazados (bind) y los volúmenes pueden ser montados en modo de solo lectura.
+
+Los contenedores pueden leer los datos, pero no pueden modificarlos. Esto es útil para proteger datos críticos de cambios accidentales. Ejemplos de uso:
+
+```bash
+docker run -d -p 8080:80 \
+  --mount type=bind,source=`pwd`/p02,target=/usr/local/apache2/htdocs,readonly httpd
+```
+```bash
+docker run -d -p 8081:80 \
+  --mount type=volume,source=vol-apache,target=/usr/local/apache2/htdocs,readonly httpd
+```
+
+Si instalo un editor en el contenedor y trato de modificar el fichero `index.html`, obtendré un error de permisos.
+
+---
+
 ##  Configuraciones de red
 
 - Permiten comunicación entre todos los contenedores pertenecientes a una red a través del nombre del contenedor
