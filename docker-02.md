@@ -83,8 +83,8 @@ nano Dockerfile
 
 Dockerfile:
 ```docker
-FROM bitnami/apache
-COPY index.html /opt/bitnami/apache/htdocs/index.html
+FROM httpd
+COPY index.html /usr/local/apache2/htdocs/index.html
 ```
 
 ```bash
@@ -136,7 +136,7 @@ docker run -d -P --name=apache-bind-1 \
   --mount type=bind,source=`pwd`/p02,target=/usr/local/apache2/htdocs httpd
 ```
 
-Comprobar los puertos a los que se ha asignado el 8080 (http) y 8443 (https) del Servidor Apache configurado en el contenedor:
+Comprobar el puerto asignado del Servidor Apache configurado en el contenedor:
 
 ```bash
 $ docker ps -a
